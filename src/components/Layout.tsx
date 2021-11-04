@@ -1,21 +1,11 @@
 import React from 'react';
-import { ReactComponent as Logo } from 'assets/veather-logo.svg';
-import { NavLink } from 'react-router-dom';
-import Search from 'components/Search';
-interface Props {}
+import Header from 'components/Header';
 
-const Layout: React.FC<Props> = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
   return (
     <>
-      <header className="">
-        <nav className="layout flex justify-between items-center">
-          <NavLink to="/">
-            <Logo className="logo" />
-          </NavLink>
-          <Search />
-        </nav>
-      </header>
-      <main className="layout">{children}</main>
+      <Header />
+      <main className="layout flex-1 mb-4">{children}</main>
       <footer className="layout flex justify-center items-center">
         Powered by{' '}
         <a

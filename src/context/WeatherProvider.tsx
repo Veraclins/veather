@@ -1,26 +1,33 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useCallback } from 'react';
 
 import { storage } from 'helpers/storage';
 import {
-  getCurrent,
+  getReport,
   isSameLocation,
+  Note,
   updateOrAdd,
   UpdateOrAddFn,
   WeatherFetchOptions,
   WeatherReport,
 } from 'helpers/weather';
-import { cities } from 'helpers';
+import { cities, compareReportAscending, createUniqueId } from 'helpers';
 import { geoLocateMe } from 'helpers/location';
-import { round } from 'helpers';
+import { roundToTwo } from 'helpers';
+import { useHistory } from 'react-router';
 
 interface WeatherContextProps {
-  fetchNewReport: (options: WeatherFetchOptions) => Promise<void>;
+  fetchNewReport: (
+    options: WeatherFetchOptions
+  ) => Promise<WeatherReport | undefined>;
   removeReport: (report: WeatherReport) => void;
+  updateCurrent: (report: WeatherReport) => void;
+  addOrUpdateNote: (report_id: string, note: Note) => void;
+  deleteNote: (report_id: string, note: Note) => void;
   toggleFavorite: (report: WeatherReport) => void;
   reports: WeatherReport[];
   favorites: WeatherReport[];
   current?: WeatherReport;
-  popular: WeatherReport[];
+  others: WeatherReport[];
 }
 
 export const WeatherContext = React.createContext<WeatherContextProps | null>(
@@ -30,14 +37,18 @@ export const useWeather = () =>
   useContext(WeatherContext) as WeatherContextProps;
 
 const WeatherProvider: React.FC = ({ children }) => {
+  const history = useHistory();
   const [reports, setReports] = useState<WeatherReport[]>(
     storage.getItem('reports') || []
   );
+  const [all, setAll] = useState<WeatherReport[]>([]);
   const [favorites, setFavorites] = useState<WeatherReport[]>([]);
-  const [popular, setPopular] = useState<WeatherReport[]>([]);
-  const [current, setCurrent] = useState<WeatherReport>();
+  const [others, setOthers] = useState<WeatherReport[]>([]);
+  const [current, setCurrent] = useState<WeatherReport>(
+    storage.getItem('current')
+  );
 
-  const oneDay = 86400000; // Refresh once a day
+  const oneHour = 3600000; // Refresh once a day
 
   const getTimeNow = () => new Date().getTime();
 
@@ -48,16 +59,25 @@ const WeatherProvider: React.FC = ({ children }) => {
     return data;
   };
 
-  const fetchNewReport = async (options: WeatherFetchOptions) => {
-    const report = await getCurrent(options);
-    if (!report) return;
-    updateReport([report], reports);
-  };
+  const fetchNewReport = useCallback(
+    async (options: WeatherFetchOptions) => {
+      const report = await getReport(options);
+      if (!report) return;
+      updateReport([report], reports);
+      return report;
+    },
+    [reports]
+  );
 
   const removeReport = (report: WeatherReport) => {
     if (!report) return;
-    const newReports = reports.filter((rep) => isSameLocation(rep, report));
+    const newReports = reports.filter((rep) => !isSameLocation(rep, report));
     return updateReport([], newReports);
+  };
+
+  const updateCurrent = (report: WeatherReport) => {
+    setCurrent(report);
+    storage.setItem('current', report);
   };
 
   const toggleFavorite = (report: WeatherReport) => {
@@ -66,27 +86,62 @@ const WeatherProvider: React.FC = ({ children }) => {
     return updateReport([report], reports);
   };
 
+  const addOrUpdateNote = (report_id: string, note: Note) => {
+    const report = all.find((rep) => rep.id === report_id);
+    if (!report) return;
+    if (!report.notes) {
+      report.notes = [];
+    }
+    if (!note.id) {
+      note.id = createUniqueId(note.body);
+      report.notes.push(note);
+    } else {
+      const index = report.notes.findIndex((not) => not.id === note.id);
+      report.notes[index] = note;
+    }
+    if (report.id === current.id) {
+      return updateCurrent(report);
+    }
+    return updateReport([report], reports);
+  };
+
+  const deleteNote = (report_id: string, note: Note) => {
+    const report = reports.find((rep) => rep.id === report_id);
+    if (!report) return;
+    if (!report.notes) return;
+    report.notes = report.notes.filter((not) => not.id !== note.id);
+    if (report.id === current.id) {
+      return updateCurrent(report);
+    }
+    return updateReport([report], reports);
+  };
+
   useEffect(() => {
     const loadPopularReports = async () => {
       const now = getTimeNow();
-      const popularReports = reports.filter((report) => report.is_popular);
 
-      const oldest = Math.max(
-        ...popularReports.map((report) => report.last_refresh)
-      );
-
-      if (popularReports.length < 15 || now - oldest > oneDay) {
+      const oldest = Math.max(...reports.map((report) => report.last_refresh));
+      let options: WeatherFetchOptions[] = [];
+      if (!reports.length) {
         const mostPopulated = cities.slice(0, 15);
+        options = mostPopulated.map((city) => ({ name: city.Name }));
+      } else {
+        options = reports.map((report) => ({
+          name: report.location.name,
+          is_favorite: report.is_favorite,
+          id: report.id,
+          notes: report.notes,
+        }));
+      }
+      if (now - oldest > oneHour) {
         const newReports = (await Promise.all(
-          mostPopulated.map((city) =>
-            getCurrent({ name: city.Name, is_popular: true })
-          )
+          options.map((option) => getReport(option))
         )) as WeatherReport[];
         return updateReport(newReports, reports);
       }
     };
     loadPopularReports();
-  }, [reports]);
+  }, []);
 
   useEffect(() => {
     const loadCurrentLocationReport = async (
@@ -94,51 +149,67 @@ const WeatherProvider: React.FC = ({ children }) => {
       latitude: number
     ) => {
       const now = getTimeNow();
-      const currentLocation = reports.find(
-        (report) => report.is_current_location
-      );
       if (
-        !currentLocation ||
-        currentLocation.location.lat !== latitude ||
-        currentLocation.location.lon !== longitude ||
-        now - currentLocation.last_refresh > oneDay
+        !current ||
+        current.location.lat !== latitude ||
+        current.location.lon !== longitude ||
+        now - current.last_refresh > oneHour
       ) {
-        await fetchNewReport({
+        const report = await getReport({
           lat: latitude,
           long: longitude,
+          id: current?.id,
+          notes: current?.notes,
           is_current_location: true,
         });
+        if (!report) return;
+        updateCurrent(report);
+        history.push('/cities/current');
       }
     };
     geoLocateMe((position) => {
       loadCurrentLocationReport(
-        round(position.coords.longitude),
-        round(position.coords.latitude)
+        roundToTwo(position.coords.longitude),
+        roundToTwo(position.coords.latitude)
       );
     });
+  }, []);
+
+  useEffect(() => {
+    const fav: WeatherReport[] = [];
+    const other: WeatherReport[] = [];
+    for (const report of reports) {
+      if (report.is_favorite) {
+        fav.push(report);
+      } else {
+        other.push(report);
+      }
+    }
+    setFavorites(fav.sort(compareReportAscending));
+    setOthers(other.sort(compareReportAscending));
   }, [reports]);
 
   useEffect(() => {
-    const currentLocation = reports.find(
-      (report) => report.is_current_location
-    );
-    const fav = reports.filter((report) => report.is_favorite);
-    const pop = reports.filter((report) => report.is_popular);
-    setCurrent(currentLocation);
-    setFavorites(fav);
-    setPopular(pop);
-  }, [reports]);
+    const data = [...reports];
+    if (current) {
+      data.push(current);
+    }
+    setAll(data);
+  }, [reports, current]);
 
   return (
     <WeatherContext.Provider
       value={{
-        fetchNewReport,
+        others,
         reports,
         current,
         favorites,
-        popular,
+        deleteNote,
         removeReport,
+        updateCurrent,
         toggleFavorite,
+        fetchNewReport,
+        addOrUpdateNote,
       }}
     >
       {children}

@@ -17,7 +17,10 @@ export const Menu: React.FC<MenuProps> = ({
   ...props
 }) => {
   return open ? (
-    <ul {...props} className="absolute top-full center-x menu w-full">
+    <ul
+      {...props}
+      className="absolute flex flex-column top-100 center-x menu w-100"
+    >
       {children}
     </ul>
   ) : null;

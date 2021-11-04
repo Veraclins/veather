@@ -1,9 +1,24 @@
-import React from 'react';
+import { useWeather } from 'context/WeatherProvider';
+import { WeatherReport } from 'helpers/weather';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import CityPage from 'components/CityPage';
 
 interface Props {}
 
-const Cities: React.FC<Props> = (props) => {
-  return <div>This is A single city page</div>;
+const City: React.FC<Props> = () => {
+  const params = useParams<{ city_id: string }>();
+  const { reports } = useWeather();
+
+  const [report, setReport] = useState<WeatherReport>();
+
+  useEffect(() => {
+    const { city_id } = params;
+    const currentReport = reports.find((report) => report.id === city_id);
+    setReport(currentReport);
+  }, [params, reports]);
+
+  return <CityPage report={report} />;
 };
 
-export default Cities;
+export default City;

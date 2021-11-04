@@ -5,12 +5,15 @@ import { ReportLocation, search } from 'helpers/weather';
 import { debounce } from 'helpers';
 import Menu, { MenuItem } from './Menu';
 import { useWeather } from 'context/WeatherProvider';
+import { useHistory } from 'react-router';
 
-export interface SearchProps {
-  name: string;
+interface SearchProps {
+  className?: string;
+  onLoaded?: () => void;
 }
 
-export const Search: React.FC = () => {
+export const Search: React.FC<SearchProps> = ({ className, onLoaded }) => {
+  const history = useHistory();
   const [value, setValue] = useState('');
   const [touched, setTouched] = useState(false);
   const [searched, setSearched] = useState<ReportLocation[]>([]);
@@ -29,9 +32,12 @@ export const Search: React.FC = () => {
 
   const fetchReport = async (location: ReportLocation) => {
     setLoading(true);
-    await fetchNewReport({ name: location.name, is_favorite: true });
+    const report = await fetchNewReport({ name: location.name });
     setLoading(false);
     setMenuOpen(false);
+    history.push(`/cities/${report?.id}`);
+    setValue('');
+    onLoaded?.();
   };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -49,7 +55,9 @@ export const Search: React.FC = () => {
   }, [handleSearch, value, touched]);
 
   return (
-    <div className="flex search-container relative">
+    <div
+      className={`flex search-container relative ${className ? className : ''}`}
+    >
       <SearchIcon />
       <input onChange={handleChange} value={value} placeholder="Search city" />
       <Menu open={menuOpen} onClose={() => setMenuOpen(false)}>

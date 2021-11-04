@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import routes from 'routes';
 import NotFoundPage from 'pages/NotFoundPage';
@@ -16,6 +16,10 @@ const App: React.FC = () => {
               {routes.map(({ path, component }, index) => (
                 <Route component={component} path={path} key={index} exact />
               ))}
+              <Route path="/" exact>
+                {' '}
+                <Redirect to="/cities" />{' '}
+              </Route>
               <Route component={NotFoundPage} />
             </Switch>
           </Layout>

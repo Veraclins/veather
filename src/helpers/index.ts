@@ -1,4 +1,64 @@
-import { ReportLocation } from 'helpers/weather';
+import { ReportLocation, WeatherReport } from 'helpers/weather';
+
+export const formatNumber = (value: number | string, decimalPlaces = 2) => {
+  const number = Number(value) || 0;
+  return number.toFixed(decimalPlaces);
+};
+export const roundToTwo = (numb: number) =>
+  Math.round((numb + Number.EPSILON) * 100) / 100;
+
+export const createRandomString = (length = 5): string => {
+  let result = '';
+  const characterSet = '0123456789abcdefghijklmnopqrstuvwxyz';
+  for (let i = length; i > 0; i--) {
+    result += characterSet[Math.floor(Math.random() * characterSet.length)];
+  }
+  return result;
+};
+
+export const slugify = (string: string, length = 20) => {
+  string = string.toLowerCase();
+
+  string = string
+    .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-') // collapse dashes
+    .replace(/^-+|-+$/g, ''); // trim dashes from start and end of text
+  return string.trim().substr(0, length);
+};
+
+export const createUniqueId = (string: string) =>
+  `${slugify(string)}-${createRandomString()}`;
+
+export const createReportId = (location: ReportLocation): string => {
+  let string = `${location.name}-${location.region}-${location.lat}-${location.lon}`;
+
+  return slugify(string, 40);
+};
+
+export const debounce = <F extends (...args: any[]) => any>(
+  func: F,
+  waitFor = 500
+) => {
+  let timeout: NodeJS.Timeout;
+
+  return (...args: Parameters<F>): Promise<ReturnType<F>> =>
+    new Promise((resolve) => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => resolve(func(...args)), waitFor);
+    });
+};
+
+export const compareReportAscending = (a: WeatherReport, b: WeatherReport) => {
+  if (a.location.name < b.location.name) {
+    return -1;
+  } else if (b.location.name < a.location.name) {
+    return 1;
+  }
+  return 0;
+};
 
 export const cities = [
   {
@@ -122,32 +182,3 @@ export const cities = [
     Population: 13635397,
   },
 ];
-
-export const round = (numb: number) =>
-  Math.round((numb + Number.EPSILON) * 100) / 100;
-
-export const createId = (location: ReportLocation): string => {
-  let string = `${location.name}-${location.region}-${location.lat}-${location.lon}`;
-  string = string.toLowerCase();
-
-  return string
-    .replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-    .replace(/\s+/g, '-') // collapse whitespace and replace by -
-    .replace(/-+/g, '-') // collapse dashes
-    .replace(/^-+|-+$/g, ''); // trim dashes from start and end of text
-};
-
-export const debounce = <F extends (...args: any[]) => any>(
-  func: F,
-  waitFor = 500
-) => {
-  let timeout: NodeJS.Timeout;
-
-  return (...args: Parameters<F>): Promise<ReturnType<F>> =>
-    new Promise((resolve) => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(() => resolve(func(...args)), waitFor);
-    });
-};

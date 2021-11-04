@@ -1,5 +1,5 @@
-import { createId } from 'helpers';
-import fetchAsync from './fetch';
+import { createReportId } from 'helpers';
+import fetchAsync from 'helpers/fetch';
 
 export interface ReportLocation {
   name: string;
@@ -13,13 +13,22 @@ export interface ReportLocation {
 }
 
 export interface Report {
+  air_quality: {
+    co: number;
+    no2: number;
+    o3: number;
+    so2: number;
+    pm2_5: number;
+    pm10: number;
+    'us-epa-index': number;
+    'gb-defra-index': number;
+  };
   condition: {
     code: number;
     icon: string;
     text: string;
   };
   cloud: number;
-  cloudcover: number;
   feelslike_c: number;
   feelslike_f: number;
   feelslike: number;
@@ -48,15 +57,20 @@ export interface Report {
 
 interface Meta {
   is_favorite?: boolean;
-  is_popular?: boolean;
   is_current_location?: boolean;
+  id?: string;
+  notes?: Note[];
+}
+
+export interface Note {
+  id?: string;
+  body: string;
 }
 
 export interface WeatherReport extends Meta {
   location: ReportLocation;
-  report: Report;
+  current: Report;
   last_refresh: number;
-  id: string;
 }
 
 interface NameOptions extends Meta {
@@ -72,8 +86,8 @@ interface CoordOptions extends Meta {
 
 export type WeatherFetchOptions = NameOptions | CoordOptions;
 
-export const getCurrent = async (options: WeatherFetchOptions) => {
-  const { name, lat, long, is_favorite, is_current_location, is_popular } =
+export const getReport = async (options: WeatherFetchOptions) => {
+  const { name, lat, long, is_favorite, is_current_location, id, notes } =
     options;
   let query = name;
   if (!query) {
@@ -81,25 +95,26 @@ export const getCurrent = async (options: WeatherFetchOptions) => {
   }
   const { REACT_APP_WEATHER_API_BASE_URL, REACT_APP_WEATHER_API_KEY } =
     process.env;
-  console.log(REACT_APP_WEATHER_API_BASE_URL, REACT_APP_WEATHER_API_KEY);
-  const url = `${REACT_APP_WEATHER_API_BASE_URL}/current.json?key=${REACT_APP_WEATHER_API_KEY}&q=${query}`;
+  const url = `${REACT_APP_WEATHER_API_BASE_URL}/current.json?key=${REACT_APP_WEATHER_API_KEY}&q=${query}&aqi=yes`;
 
   const response = await fetchAsync<WeatherReport>({ url });
-  if (response) {
+  if (response?.current) {
     response.last_refresh = new Date().getTime();
-    response.is_popular = !!is_popular;
     response.is_current_location = !!is_current_location;
     response.is_favorite = !!is_favorite;
-    response.id = createId(response.location);
+    if (!id) {
+      response.id = createReportId(response.location);
+    }
+    if (!notes) {
+      response.notes = notes || [];
+    }
   }
-
   return response;
 };
 
 export const search = async (string: string) => {
   const { REACT_APP_WEATHER_API_BASE_URL, REACT_APP_WEATHER_API_KEY } =
     process.env;
-  console.log(REACT_APP_WEATHER_API_BASE_URL, REACT_APP_WEATHER_API_KEY);
   const url = `${REACT_APP_WEATHER_API_BASE_URL}/search.json?key=${REACT_APP_WEATHER_API_KEY}&q=${string}`;
 
   const response = await fetchAsync<ReportLocation[]>({ url });
@@ -107,7 +122,7 @@ export const search = async (string: string) => {
 };
 
 export const isSameLocation = (a: WeatherReport, b: WeatherReport) =>
-  a.id === b.id;
+  a && b && a.id === b.id;
 
 export type UpdateOrAddFn = (
   newEntities: readonly WeatherReport[],
@@ -115,15 +130,24 @@ export type UpdateOrAddFn = (
 ) => WeatherReport[];
 
 export const updateOrAdd: UpdateOrAddFn = (newEntities, state) => {
-  const newState: WeatherReport[] = [...state];
+  const newState: WeatherReport[] = [...state.filter((report) => report.id)];
 
   for (const entity of newEntities) {
-    const newEntity = newState.find((report) => isSameLocation(report, entity));
-    if (newEntity) {
-      const index = newState.findIndex((report) =>
-        isSameLocation(report, entity)
-      );
-      newState[index] = { ...newState[index], ...newEntity };
+    if (!entity?.id) {
+      continue;
+    }
+    let existing: WeatherReport | undefined;
+    let index: number = 0;
+    for (let i = 0; i < newState.length; i++) {
+      const report = newState[i];
+      if (isSameLocation(report, entity)) {
+        existing = report;
+        index = i;
+        break;
+      }
+    }
+    if (existing) {
+      newState[index] = { ...existing, ...entity };
     } else {
       newState.push(entity);
     }
