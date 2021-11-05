@@ -31,7 +31,6 @@ export interface Report {
   cloud: number;
   feelslike_c: number;
   feelslike_f: number;
-  feelslike: number;
   gust_kph: number;
   gust_mph: number;
   humidity: number;
@@ -44,11 +43,9 @@ export interface Report {
   pressure_mb: number;
   temp_c: number;
   temp_f: number;
-  uv_index: number;
   uv: number;
   vis_km: number;
   vis_miles: number;
-  visibility: number;
   wind_degree: number;
   wind_dir: string;
   wind_kph: number;
@@ -95,7 +92,7 @@ export const getReport = async (options: WeatherFetchOptions) => {
   }
   const { REACT_APP_WEATHER_API_BASE_URL, REACT_APP_WEATHER_API_KEY } =
     process.env;
-  const url = `${REACT_APP_WEATHER_API_BASE_URL}/current.json?key=${REACT_APP_WEATHER_API_KEY}&q=${query}&aqi=yes`;
+  const url = `${REACT_APP_WEATHER_API_BASE_URL}/current.json?key=${REACT_APP_WEATHER_API_KEY}&aqi=yes&q=${query}`;
 
   const response = await fetchAsync<WeatherReport>({ url });
   if (response?.current) {

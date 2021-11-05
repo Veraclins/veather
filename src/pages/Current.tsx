@@ -1,4 +1,4 @@
-import { useWeather } from 'context/WeatherProvider';
+import { useWeatherContext } from 'context/WeatherContext';
 import { getReport } from 'helpers/weather';
 import React, { useEffect, useState } from 'react';
 import CityPage from 'components/CityPage';
@@ -8,7 +8,7 @@ import { roundToTwo } from 'helpers';
 interface Props {}
 
 const Current: React.FC<Props> = () => {
-  const { current, updateCurrent } = useWeather();
+  const { current, updateCurrent } = useWeatherContext();
 
   const [report, setReport] = useState(current);
 

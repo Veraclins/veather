@@ -19,6 +19,7 @@ const NotFoundPage: React.FC = () => {
       <button
         onClick={gotoHomePage}
         className="bg-blue p-2-5 px-3 mt-3 text-white"
+        data-testid="goto-home"
       >
         Let's take you home
       </button>

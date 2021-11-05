@@ -4,7 +4,7 @@ import { ReactComponent as SearchIcon } from 'assets/search_black.svg';
 import { ReportLocation, search } from 'helpers/weather';
 import { debounce } from 'helpers';
 import Menu, { MenuItem } from './Menu';
-import { useWeather } from 'context/WeatherProvider';
+import { useWeatherContext } from 'context/WeatherContext';
 import { useHistory } from 'react-router';
 
 interface SearchProps {
@@ -20,7 +20,7 @@ export const Search: React.FC<SearchProps> = ({ className, onLoaded }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { fetchNewReport } = useWeather();
+  const { fetchNewReport } = useWeatherContext();
 
   const submit = async (string: string) => {
     const locations = await search(string);
@@ -57,6 +57,7 @@ export const Search: React.FC<SearchProps> = ({ className, onLoaded }) => {
   return (
     <div
       className={`flex search-container relative ${className ? className : ''}`}
+      data-testid="search-box"
     >
       <SearchIcon />
       <input onChange={handleChange} value={value} placeholder="Search city" />

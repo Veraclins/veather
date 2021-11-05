@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import TextArea from 'components/TextArea';
 import { Note as NoteProps } from 'helpers/weather';
-import { useWeather } from 'context/WeatherProvider';
+import { useWeatherContext } from 'context/WeatherContext';
 import { ReactComponent as DoneIcon } from 'assets/done.svg';
 import { ReactComponent as CancelIcon } from 'assets/cancel.svg';
 
-interface Props {
+export interface NoteFormProps {
   note: NoteProps;
   report_id: string;
   onCancel?: () => void;
   onSubmit?: () => void;
 }
 
-const NoteForm: React.FC<Props> = ({ note, report_id, onCancel, onSubmit }) => {
+const NoteForm: React.FC<NoteFormProps> = ({
+  note,
+  report_id,
+  onCancel,
+  onSubmit,
+}) => {
   const [value, setValue] = useState(note.body);
   const [touched, setTouched] = useState(false);
 
-  const { addOrUpdateNote } = useWeather();
+  const { addOrUpdateNote } = useWeatherContext();
   const cancel = () => {
     setValue(note.body);
     setTouched(false);
@@ -49,6 +54,7 @@ const NoteForm: React.FC<Props> = ({ note, report_id, onCancel, onSubmit }) => {
           <button
             className="bg-red text-white rounded-2 ml-2 p-2 flex items-center justify-center"
             onClick={cancel}
+            data-testid="cancel-edit"
           >
             <CancelIcon className="h-2-5 w-2-5" />
           </button>
@@ -56,6 +62,7 @@ const NoteForm: React.FC<Props> = ({ note, report_id, onCancel, onSubmit }) => {
           <button
             className="text-white bg-blue rounded-2 ml-2 p-2 flex items-center justify-center"
             onClick={save}
+            data-testid="save-note"
           >
             <DoneIcon className="h-2-5 w-2-5" />
           </button>

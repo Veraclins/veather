@@ -1,14 +1,13 @@
 import React from 'react';
-import TextArea from 'components/TextArea';
 import { WeatherReport } from 'helpers/weather';
 import Note from 'components/Note';
 import NoteForm from 'components/NoteForm';
 
-interface Props {
+export interface NotesProps {
   report: WeatherReport;
 }
 
-const Notes: React.FC<Props> = ({ report }) => {
+const Notes: React.FC<NotesProps> = ({ report }) => {
   return (
     <>
       <div className="w-100 p-2">

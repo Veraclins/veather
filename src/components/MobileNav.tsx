@@ -1,10 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import Search from 'components/Search';
+import { WeatherReport } from 'helpers/weather';
 
-interface Props {}
+interface Props {
+  current?: WeatherReport;
+}
 
-export const MobileNav: React.FC<Props> = () => {
+export const MobileNav: React.FC<Props> = ({ current }) => {
   const [isActive, setIsActive] = useState(false);
 
   const toggleMenu = () => {
@@ -18,7 +21,10 @@ export const MobileNav: React.FC<Props> = () => {
         isActive ? ' active' : ''
       }`}
     >
-      <button className="flex flex-column justify-center bg-transparent w-100 h-100">
+      <button
+        className="flex flex-column justify-center bg-transparent w-100 h-100"
+        data-testid="open-mobile-menu"
+      >
         <span className="hamburger" />
         <span className="hamburger" />
         <span className="hamburger" />
@@ -42,13 +48,15 @@ export const MobileNav: React.FC<Props> = () => {
         >
           Cities
         </NavLink>
-        <NavLink
-          onClick={toggleMenu}
-          to="/cities/current"
-          className="p-3 rounded w-100"
-        >
-          Current
-        </NavLink>
+        {current ? (
+          <NavLink
+            onClick={toggleMenu}
+            to="/cities/current"
+            className="p-3 rounded w-100"
+          >
+            Current
+          </NavLink>
+        ) : null}
       </menu>
     </section>
   );

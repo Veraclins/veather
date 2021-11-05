@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import 'assets/styles/index.css';
 import App from 'App';
 import reportWebVitals from './reportWebVitals';
+import { storage } from 'helpers/storage';
+
+const cached = storage.getItem('reports') || [];
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App cached={cached} />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,4 +1,4 @@
-import { useWeather } from 'context/WeatherProvider';
+import { useWeatherContext } from 'context/WeatherContext';
 import { WeatherReport } from 'helpers/weather';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -8,7 +8,7 @@ interface Props {}
 
 const City: React.FC<Props> = () => {
   const params = useParams<{ city_id: string }>();
-  const { reports } = useWeather();
+  const { reports } = useWeatherContext();
 
   const [report, setReport] = useState<WeatherReport>();
 

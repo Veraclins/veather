@@ -1,11 +1,11 @@
 export const geoLocateMe = (callback: PositionCallback) => {
   if (!navigator.geolocation) {
-    console.error('Geolocation is not supported by your browser');
+    console.log('Geolocation is not supported by your browser');
   } else {
     navigator.geolocation.getCurrentPosition(
       callback,
       () => {
-        console.error('Something is not right!');
+        console.log('Something is not right!');
       },
       {
         enableHighAccuracy: true,

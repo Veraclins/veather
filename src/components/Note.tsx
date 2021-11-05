@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import NoteForm from 'components/NoteForm';
 import { Note as MainProps } from 'helpers/weather';
-import { useWeather } from 'context/WeatherProvider';
+import { useWeatherContext } from 'context/WeatherContext';
 import { ReactComponent as DeleteIcon } from 'assets/delete_forever.svg';
 import { ReactComponent as EditIcon } from 'assets/edit.svg';
 
@@ -13,7 +13,7 @@ export interface NoteProps {
 const Note: React.FC<NoteProps> = ({ note, report_id }) => {
   const [editing, setEditing] = useState(false);
 
-  const { deleteNote } = useWeather();
+  const { deleteNote } = useWeatherContext();
 
   const remove = () => {
     deleteNote(report_id, note);
@@ -35,12 +35,14 @@ const Note: React.FC<NoteProps> = ({ note, report_id }) => {
         <button
           className="text-white bg-blue rounded-1 py-1 px-2 flex items-center justify-center text-sm"
           onClick={() => setEditing(true)}
+          data-testid="edit-note"
         >
           <EditIcon className="h-2-5 w-2-5" />
         </button>
         <button
           className="bg-red text-white rounded-1 ml-2 py-1 px-2 flex items-center justify-center text-sm"
           onClick={remove}
+          data-testid="delete-note"
         >
           <DeleteIcon className="h-2-5 w-2-5" />
         </button>
