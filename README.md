@@ -1,18 +1,21 @@
-# Getting Started with Create React App
+# Welcome to Veather
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Your daily weather app powered by [WeatherAPI.com](https://www.weatherapi.com/)
 
-## Available Scripts
+## OverView
 
-In the project directory, you can run:
+Veather is a simple weather app that displays the weather reports of top 15 most populated cities in the world by default as well as the report of the current city of the user when the user gives it location access. It also has a search input through which you can search any city around the world and get the current weather report of that city.
 
-### `yarn start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The main features of the app are
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Load the report of popular cities around the world
+
+The app by default loads the reports of the top 15 most popular cities (based on population) around the world and saves it in the browser memory. These reported are then listed on the cities page (doubles as the home page) as shown below
+
+
+
 
 ### `yarn test`
 
