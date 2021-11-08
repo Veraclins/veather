@@ -86,7 +86,7 @@ const WeatherProvider: React.FC<{ cached: WeatherReport[] }> = ({
   };
 
   const deleteNote = (report_id: string, note: Note) => {
-    const report = reports.find((rep) => rep.id === report_id);
+    const report = all.find((rep) => rep.id === report_id);
     if (!report) return;
     if (!report.notes) return;
     report.notes = report.notes.filter((not) => not.id !== note.id);

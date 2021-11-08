@@ -14,6 +14,8 @@ The main features of the app are
 
 The app by default loads the reports of the top 15 most popular cities (based on population) around the world and saves it in the browser memory. These reported are then listed on the cities page (doubles as the home page) as shown below
 
+![desktop with prompt](https://tinyurl.com/yh2fu9je)
+
 
 
 
