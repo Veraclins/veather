@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-
 import { Note, WeatherFetchOptions, WeatherReport } from 'helpers/weather';
 
 interface WeatherContextProps {
