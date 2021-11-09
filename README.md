@@ -6,7 +6,7 @@ Your daily weather app powered by [WeatherAPI.com](https://www.weatherapi.com/)
 
 Veather is a simple weather app that displays the weather reports of top 15 most populated cities in the world by default as well as the report of the current city of the user when the user gives it location access. It also has a search input through which you can search any city around the world and get the current weather report of that city.
 
-The app can be accessed on [veatherz on vercel](https://veatherz.vercel.app)
+The app can be accessed on [veatherz on vercel](https://veatherz.vercel.app) and a video demonstration is available [here](https://www.loom.com/share/0d9c2117f9b34e12a4ee553d9aed57a7)
 
 ## Features
 
@@ -67,3 +67,125 @@ Notes are listed below the textarea with an edit button and a delete button. Cli
 ![edit_note mobile](/screenshots/edit_note_mobile.jpg)
 
 Any note can be deleted easily by clicking the related delete button. This removes the note from the list.
+
+## Technical details
+
+The application is a react application bootstrapped using [Create React App](https://github.com/facebook/create-react-app). It is written in Typescript.
+
+### File Structure
+
+The app uses the following folder/file structure
+
+```
+├── src/
+│   ├── components/
+│   │   ├── Layout.tsx
+│   │   ├── Layout.test.tsx
+│   │   ├── Menu.test.tsx
+│   │   └── Menu.tsx
+│   ├── context/
+│   │   ├── WeatherContext.tsx
+│   │   └── WeatherProvider.tsx
+│   ├── helpers/
+│   │   ├── weather.ts
+│   │   └── index.ts
+│   ├── assets/
+│   │   ├── cancel.svg
+│   │   ├── styles/
+│   │   │   ├── index.css
+│   │   │   └── index.scss
+│   │   └── 404.svg
+│   ├── pages/
+│   │   ├── Cities.tsx
+│   │   ├── City.tsx
+│   │   ├── Current.tsx
+│   │   └── NotFoundPage.tsx
+│   ├── routes/
+│   │   └── index.tsx
+│   ├── App.test.tsx
+│   ├── App.tsx
+│   ├── index.tsx
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.ts
+│   ├── setupTests.ts
+│   ├── test-data.ts
+│   └── test-utils.ts
+├── screenshots/
+│   ├── desktop.png
+│   └── desktop_mobile.jpg
+├── public/
+│   ├── favicon.ico
+│   ├── manifest.json
+│   └── index.html
+├── package.json
+├── README.md
+├── .gitignore
+├── tsconfig.json
+└── yarn.lock
+```
+
+#### `src`
+
+Contains all the core application code.
+
+##### `components`
+
+This contains all the reusable components such as TextArea.tsx
+
+##### `context`
+
+This contains all the files needed to create react contexts. It includes the Weather context implementations
+
+##### `helpers`
+
+This contains utility or helper functions such as the debounce function, a wrapper around the fetch api and a wrapper around localStorage methods.
+
+##### `assets`
+
+This contains all the static assets and styles. The styles folder contains the origin scss file and the generated css file.
+
+##### `pages`
+
+This contains route components that render distinct pages. This files match defined routes including file to show the 404 page
+
+##### `routes`
+
+This contains the file that defines the routes and associated route components. All routes are loaded using react lazy loading
+
+##### `Default files`
+
+These are files required to bootstrap the app such as App.tsx and index.tsx as well as test setup/utility files
+
+#### `screenshots`
+
+Contains all the screenshots of the application
+
+#### `public`
+
+Contains files that are served statically from the app url including the entry index.html.
+
+### Styling
+
+The application is styled using scss. I love utility classes (thanks to tailwind css) and I like to experiment with any task I can and so I decided to experiment with creating utility classes of my own. Scss makes it possible for me to easily generate these utility classes and responsive variants using variables, simple functions and mixins. This makes it very easy to have have responsive styles by simply prefixing the utility classes with breakpoint utilities (sm, md, and lg). For instance adding the class `text-white md-text-blue` gives you a white text in small screens and blue text in screens larger than 768px. This made it easy for me to make the app responsive while writing few functional classes.
+
+### Tests
+
+Test are included for most of the main components and features. Tests are co-located with the respective components. To run the tests:
+
+1. Clone the application
+
+    ``` bash
+    git clone git@github.com:Veraclins/veather.git
+    ```
+
+2. Install dependencies
+
+    ``` bash
+    yarn install
+    ```
+
+3. Run test
+
+    ``` bash
+    yarn test
+    ```
