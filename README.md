@@ -6,46 +6,64 @@ Your daily weather app powered by [WeatherAPI.com](https://www.weatherapi.com/)
 
 Veather is a simple weather app that displays the weather reports of top 15 most populated cities in the world by default as well as the report of the current city of the user when the user gives it location access. It also has a search input through which you can search any city around the world and get the current weather report of that city.
 
+The app can be accessed on [veatherz on vercel](https://veatherz.vercel.app)
+
 ## Features
 
-The main features of the app are
+The main features of the app are summarized below
 
 ### Load the report of popular cities around the world
 
 The app by default loads the reports of the top 15 most popular cities (based on population) around the world and saves it in the browser memory. These reported are then listed on the cities page (doubles as the home page) as shown below
 
-![desktop with prompt](https://tinyurl.com/yh2fu9je)
+![desktop with prompt](/screenshots/desktop.png)
+![desktop with prompt mobile](/screenshots/desktop_mobile.jpg)
 
+### Search City
 
+The app provides a search field on the navigation (both on desktop and mobile) for searching any cities. This uses the Search/Autocomplete API of [WeatherAPI.com](https://www.weatherapi.com/) to get a list of matching cities as soon as you stop typing (few milliseconds after the last input). A sample search result is shown below
 
+![search](/screenshots/search.png)
+![search mobile](/screenshots/search_mobile.jpg)
 
-### `yarn test`
+This ensures that you get the report of the correct city by selecting the returned choice that matches your query. Selecting an option loads the report and take you to the details page as shown below
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![details](/screenshots/details.png)
+![details mobile](/screenshots/details_mobile.jpg)
 
-### `yarn build`
+### Current City
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The app prompts the user to allow access to their device location the first time it loads and if granted permission, it loads the current city based on the device location and opens its details page. The prompt can be seen in the desktop images above and the current city page is shown below. A link is then added to the navigation to easily go to the current city page any time
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![current](/screenshots/current.png)
+![current mobile](/screenshots/current_mobile.jpg)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+_**Note: My laptop does not return an accurate location. My mobile device does**_
 
-### `yarn eject`
+### Add a report to favorite
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+When viewing the list of reports, the user can easily mark a report as favorite or unmark an already "favorited" report by clicking the favorite icon. The icon and button color changes based on the state (added to favorites or not). This makes it easy to differentiate favorite report from the others. Favorite reports are also automatically listed on top of the list
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![favorites](/screenshots/favorites.png)
+![favorites mobile](/screenshots/favorites_mobile.jpg)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Delete a report
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+When viewing the list of reports, the user can easily delete a report by clicking the delete icon. Every report in the list can be removed by just clicking the respective delete button. A smaller list with some reports deleted is shown below
 
-## Learn More
+![cleaned](/screenshots/cleaned.png)
+![cleaned mobile](/screenshots/cleaned_mobile.jpg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Add, edit and delete notes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The user can add notes to any report when on the details page. To add a note, just type the note into the textarea on the right (bottom on mobile). Typing into the field activates the action button to save the note or cancel it. This is shown below
+
+![add_note](/screenshots/add_note.png)
+![add_note mobile](/screenshots/add_note_mobile.jpg)
+
+Notes are listed below the textarea with an edit button and a delete button. Clicking the edit button opens a textarea in place and changing the note brings up the action buttons to save or cancel the operation. This is shown below
+
+![edit_note](/screenshots/edit_note.png)
+![edit_note mobile](/screenshots/edit_note_mobile.jpg)
+
+Any note can be deleted easily by clicking the related delete button. This removes the note from the list.
