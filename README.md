@@ -2,6 +2,33 @@
 
 Your daily weather app powered by [WeatherAPI.com](https://www.weatherapi.com/)
 
+## Table of Contents
+
+- [Welcome to Veather](#welcome-to-veather)
+  - [Table of Contents](#table-of-contents)
+  - [OverView](#overview)
+  - [Features](#features)
+    - [Default Report](#default-report)
+    - [Search City](#search-city)
+    - [Current City](#current-city)
+    - [Add a report to favorite](#add-a-report-to-favorite)
+    - [Delete a report](#delete-a-report)
+    - [Add, edit and delete notes](#add-edit-and-delete-notes)
+  - [Technical details](#technical-details)
+    - [File Structure](#file-structure)
+      - [`src`](#src)
+        - [`components`](#components)
+        - [`context`](#context)
+        - [`helpers`](#helpers)
+        - [`assets`](#assets)
+        - [`pages`](#pages)
+        - [`routes`](#routes)
+        - [`Default files`](#default-files)
+      - [`screenshots`](#screenshots)
+      - [`public`](#public)
+    - [Styling](#styling)
+    - [Tests](#tests)
+
 ## OverView
 
 Veather is a simple weather app that displays the weather reports of top 15 most populated cities in the world by default as well as the report of the current city of the user when the user gives it location access. It also has a search input through which you can search any city around the world and get the current weather report of that city.
@@ -12,7 +39,7 @@ The app can be accessed on [veatherz on vercel](https://veatherz.vercel.app) and
 
 The main features of the app are summarized below
 
-### Load the report of popular cities around the world
+### Default Report
 
 The app by default loads the reports of the top 15 most popular cities (based on population) around the world and saves it in the browser memory. These reported are then listed on the cities page (doubles as the home page) as shown below
 
@@ -174,18 +201,18 @@ Test are included for most of the main components and features. Tests are co-loc
 
 1. Clone the application
 
-    ``` bash
-    git clone git@github.com:Veraclins/veather.git
-    ```
+   ```bash
+   git clone git@github.com:Veraclins/veather.git
+   ```
 
 2. Install dependencies
 
-    ``` bash
-    yarn install
-    ```
+   ```bash
+   yarn install
+   ```
 
 3. Run test
 
-    ``` bash
-    yarn test
-    ```
+   ```bash
+   yarn test
+   ```
