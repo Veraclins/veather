@@ -7,12 +7,10 @@ const AllTheProviders: React.FC = ({ children }) => {
     <BrowserRouter>
       <WeatherContext.Provider
         value={{
-          others: [],
           reports: [],
-          favorites: [],
           deleteNote: jest.fn(),
+          getCurrent: jest.fn(),
           removeReport: jest.fn(),
-          updateCurrent: jest.fn(),
           toggleFavorite: jest.fn(),
           fetchNewReport: jest.fn(),
           addOrUpdateNote: jest.fn(),

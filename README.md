@@ -7,6 +7,9 @@ Your daily weather app powered by [WeatherAPI.com](https://www.weatherapi.com/)
 - [Welcome to Veather](#welcome-to-veather)
   - [Table of Contents](#table-of-contents)
   - [OverView](#overview)
+  - [Local Dev Setup](#local-dev-setup)
+    - [1. clone the repository and install dependencies](#1-clone-the-repository-and-install-dependencies)
+    - [2. Start the development server](#2-start-the-development-server)
   - [Features](#features)
     - [Default Report](#default-report)
     - [Search City](#search-city)
@@ -34,6 +37,33 @@ Your daily weather app powered by [WeatherAPI.com](https://www.weatherapi.com/)
 Veather is a simple weather app that displays the weather reports of top 15 most populated cities in the world by default as well as the report of the current city of the user when the user gives it location access. It also has a search input through which you can search any city around the world and get the current weather report of that city.
 
 The app can be accessed on [veatherz on vercel](https://veatherz.vercel.app) and a video demonstration is available [here](https://www.loom.com/share/0d9c2117f9b34e12a4ee553d9aed57a7)
+
+## Local Dev Setup
+
+T setup the app in a local development environment, follow the following steps
+
+### 1. clone the repository and install dependencies
+
+Clone the repository:
+
+```bash
+git clone git@github.com:Veraclins/veather.git
+```
+
+Install dependencies:
+
+``` bash
+cd veather
+yarn install
+```
+
+### 2. Start the development server
+
+```bash
+yarn start
+```
+
+The app will start running on `http://localhost:3000` and automatically open it in your default browser.
 
 ## Features
 
@@ -146,6 +176,8 @@ The app uses the following folder/file structure
 │   └── index.html
 ├── package.json
 ├── README.md
+├── .env
+├── .env.example
 ├── .gitignore
 ├── tsconfig.json
 └── yarn.lock
@@ -193,26 +225,12 @@ Contains files that are served statically from the app url including the entry i
 
 ### Styling
 
-The application is styled using scss. I love utility classes (thanks to tailwind css) and I like to experiment with any task I can and so I decided to experiment with creating utility classes of my own. Scss makes it possible for me to easily generate these utility classes and responsive variants using variables, simple functions and mixins. This makes it very easy to have have responsive styles by simply prefixing the utility classes with breakpoint utilities (sm, md, and lg). For instance adding the class `text-white md-text-blue` gives you a white text in small screens and blue text in screens larger than 768px. This made it easy for me to make the app responsive while writing few functional classes.
+The application is styled using scss. I love utility classes (thanks to tailwind css) and I like to experiment with any task I can and so I decided to experiment with creating utility classes of my own. Scss makes it possible for me to easily generate these utility classes and responsive variants using variables, simple functions and mixins. This makes it very easy to have have responsive styles by simply prefixing the utility classes with breakpoint utilities (sm, md, lg, xl and 2xl thanks to tailwind). For instance adding the class `text-white md-text-blue` gives you a white text in small screens and blue text in screens 768px wide and larger. This made it easy for me to make the app responsive while writing few functional classes.
 
 ### Tests
 
 Test are included for most of the main components and features. Tests are co-located with the respective components. To run the tests:
 
-1. Clone the application
-
-   ```bash
-   git clone git@github.com:Veraclins/veather.git
-   ```
-
-2. Install dependencies
-
-   ```bash
-   yarn install
-   ```
-
-3. Run test
-
-   ```bash
-   yarn test
-   ```
+```bash
+yarn test
+```

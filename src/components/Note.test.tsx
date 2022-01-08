@@ -1,4 +1,4 @@
-import { render } from 'test-utils';
+import { render, screen } from 'test-utils';
 import Note, { NoteProps } from 'components/Note';
 import userEvent from '@testing-library/user-event';
 
@@ -11,14 +11,14 @@ describe('Note Component', () => {
     },
   };
   it('renders a note', () => {
-    const component = render(<Note {...props} />);
-    const noteText = component.getByText(props.note.body);
+    render(<Note {...props} />);
+    const noteText = screen.getByText(props.note.body);
     expect(noteText).toBeInTheDocument();
   });
   it('renders a textarea for editing notes', () => {
-    const component = render(<Note {...props} />);
-    userEvent.click(component.getByTestId('edit-note'));
+    render(<Note {...props} />);
+    userEvent.click(screen.getByTestId('edit-note'));
 
-    expect(component.getByDisplayValue(props.note.body)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(props.note.body)).toBeInTheDocument();
   });
 });

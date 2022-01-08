@@ -5,15 +5,15 @@ import routes from 'routes';
 import NotFoundPage from 'pages/NotFoundPage';
 import Layout from 'components/Layout';
 
-import { WeatherReport } from 'helpers/weather';
+import { WeatherReport } from 'helpers/Store';
 import WeatherProvider from 'context/WeatherProvider';
 
 const App: React.FC<{ cached: WeatherReport[] }> = ({ cached }) => {
   return (
     <BrowserRouter>
       <WeatherProvider cached={cached}>
-        <Suspense fallback={<div>Please wait...</div>}>
-          <Layout>
+        <Layout>
+          <Suspense fallback={<div>Please wait...</div>}>
             <Switch>
               {routes.map(({ path, component }, index) => (
                 <Route component={component} path={path} key={index} exact />
@@ -23,8 +23,8 @@ const App: React.FC<{ cached: WeatherReport[] }> = ({ cached }) => {
               </Route>
               <Route component={NotFoundPage} />
             </Switch>
-          </Layout>
-        </Suspense>
+          </Suspense>
+        </Layout>
       </WeatherProvider>
     </BrowserRouter>
   );

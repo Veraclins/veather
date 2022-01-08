@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import Search from 'components/Search';
-import { WeatherReport } from 'helpers/weather';
+import { WeatherReport } from 'helpers/Store';
 
 interface Props {
   current?: WeatherReport;
@@ -36,15 +36,14 @@ export const MobileNav: React.FC<Props> = ({ current }) => {
             e.stopPropagation();
           }}
         >
-          <Search
-            className="min-w-16x border-1 border-light-gray mx-2"
-            onLoaded={toggleMenu}
-          />
+          <Search className=" w-100 border-1 mx-2" onLoaded={toggleMenu} />
         </div>
         <NavLink
           onClick={toggleMenu}
           to="/cities"
-          className="p-3 rounded w-100"
+          className="p-3 rounded-2"
+          activeClassName="border-1 m-2"
+          exact
         >
           Cities
         </NavLink>
@@ -52,7 +51,9 @@ export const MobileNav: React.FC<Props> = ({ current }) => {
           <NavLink
             onClick={toggleMenu}
             to="/cities/current"
-            className="p-3 rounded w-100"
+            className="p-3 rounded-2"
+            activeClassName="border-1 m-2"
+            exact
           >
             Current
           </NavLink>

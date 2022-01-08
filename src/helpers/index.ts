@@ -1,4 +1,4 @@
-import { ReportLocation, WeatherReport } from 'helpers/weather';
+import { ReportLocation, WeatherReport } from 'helpers/Store';
 
 export const formatNumber = (value: number | string, decimalPlaces = 2) => {
   const number = Number(value) || 0;
@@ -24,16 +24,19 @@ export const slugify = (string: string, length = 20) => {
     .replace(/\s+/g, '-') // collapse whitespace and replace by -
     .replace(/-+/g, '-') // collapse dashes
     .replace(/^-+|-+$/g, ''); // trim dashes from start and end of text
-  return string.trim().substr(0, length);
+  return string.trim().substring(0, length - 1);
 };
 
 export const createUniqueId = (string: string) =>
   `${slugify(string)}-${createRandomString()}`;
 
 export const createReportId = (location: ReportLocation): string => {
-  let string = `${location.name}-${location.region}-${location.lat}-${location.lon}`;
+  const region = location.region
+    ? `${location.region}-${location.country}`
+    : location.country;
+  let string = `${location.name}-${region}`;
 
-  return slugify(string, 40);
+  return slugify(string, 60);
 };
 
 export const debounce = <F extends (...args: any[]) => any>(

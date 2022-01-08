@@ -5,9 +5,13 @@ export const storage = {
     }
     return localStorage.setItem(name, data);
   },
-  getItem: (name: string, isString?: boolean) => {
-    const value = localStorage.getItem(name);
-    return value ? (isString ? value : JSON.parse(value)) : null;
+  getItem: (name: string) => {
+    const value: any = localStorage.getItem(name);
+    try {
+      return JSON.parse(value);
+    } catch (error) {
+      return value;
+    }
   },
   removeItem: (name: string) => localStorage.removeItem(name),
   removeItems: (names: string[]) =>

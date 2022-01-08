@@ -7,7 +7,7 @@ const Layout: React.FC = ({ children }) => {
       <Header />
       <main className="layout flex-1 mb-4">{children}</main>
       <footer className="layout flex justify-center items-center">
-        Powered by{' '}
+        Powered by&nbsp;
         <a
           href="https://www.weatherapi.com/"
           target="_blank"

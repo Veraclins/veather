@@ -6,8 +6,13 @@ export interface MenuProps extends React.HtmlHTMLAttributes<HTMLUListElement> {
 export interface MenuItemProps
   extends React.HtmlHTMLAttributes<HTMLLIElement> {}
 
-export const MenuItem: React.FC<MenuItemProps> = ({ ...props }) => {
-  return <li {...props} className="cursor-pointer" />;
+export const MenuItem: React.FC<MenuItemProps> = ({ className, ...props }) => {
+  return (
+    <li
+      {...props}
+      className={`cursor-pointer p-2${className ? ' ' + className : ''}`}
+    />
+  );
 };
 
 export const Menu: React.FC<MenuProps> = ({
@@ -19,7 +24,7 @@ export const Menu: React.FC<MenuProps> = ({
   return open ? (
     <ul
       {...props}
-      className="absolute flex flex-column top-100 center-x menu w-100"
+      className="absolute flex flex-column top-100 left-0 right-0 menu w-100"
     >
       {children}
     </ul>

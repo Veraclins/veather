@@ -16,11 +16,21 @@ const Header: React.FC = () => {
         <MobileNav current={current} />
         <div className="justify-end items-center none md-flex">
           <Search className="min-w-16x lg-min-w-20x mr-4" />
-          <NavLink to={`/cities`} className="text-lg text-white">
+          <NavLink
+            to={`/cities`}
+            className="text-lg text-white"
+            activeClassName="border-b-2"
+            exact
+          >
             Cities
           </NavLink>
           {current ? (
-            <NavLink to={'/cities/current'} className="text-lg text-white ml-4">
+            <NavLink
+              to={'/cities/current'}
+              className="text-lg text-white ml-4"
+              activeClassName="border-b-2"
+              exact
+            >
               Current
             </NavLink>
           ) : null}

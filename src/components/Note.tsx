@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NoteForm from 'components/NoteForm';
-import { Note as MainProps } from 'helpers/weather';
+import { Note as MainProps } from 'helpers/Store';
 import { useWeatherContext } from 'context/WeatherContext';
 import { ReactComponent as DeleteIcon } from 'assets/delete_forever.svg';
 import { ReactComponent as EditIcon } from 'assets/edit.svg';
@@ -16,7 +16,7 @@ const Note: React.FC<NoteProps> = ({ note, report_id }) => {
   const { deleteNote } = useWeatherContext();
 
   const remove = () => {
-    deleteNote(report_id, note);
+    deleteNote(report_id, note.id);
   };
 
   return editing ? (

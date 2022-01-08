@@ -1,4 +1,6 @@
-export const reports = [
+import { WeatherReport } from 'helpers/Store';
+
+export const reports: WeatherReport[] = [
   {
     location: {
       name: 'Tokyo',
@@ -10,7 +12,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 20:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 20:45',
       temp_c: 17,
@@ -50,10 +52,11 @@ export const reports = [
       },
     },
     last_refresh: 1636027045757,
-    is_current_location: false,
     is_favorite: true,
     id: 'tokyo-tokyo-3569-13969',
-    notes: [{ id: 'existing-note-1', body: 'The note body' }],
+    notes: {
+      'existing-note-1': { id: 'existing-note-1', body: 'The note body' },
+    },
   },
   {
     location: {
@@ -66,7 +69,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 17:26',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 17:15',
       temp_c: 24,
@@ -106,10 +109,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045722,
-    is_current_location: false,
     is_favorite: true,
     id: 'delhi-delhi-2867-7722',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -122,7 +124,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 19:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 19:45',
       temp_c: 19,
@@ -162,10 +164,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045722,
-    is_current_location: false,
     is_favorite: false,
     id: 'shanghai-shanghai-3101-12141',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -178,7 +179,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 8:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 08:45',
       temp_c: 18,
@@ -218,10 +219,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045774,
-    is_current_location: false,
     is_favorite: false,
     id: 'sao-paulo-sao-paulo-2353-4662',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -234,7 +234,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 5:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636025400,
       last_updated: '2021-11-04 05:30',
       temp_c: 12.2,
@@ -274,10 +274,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045772,
-    is_current_location: false,
     is_favorite: false,
     id: 'mexico-city-the-federal-district-1943-99',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -290,7 +289,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 17:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 17:45',
       temp_c: 29.9,
@@ -330,10 +329,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045774,
-    is_current_location: false,
     is_favorite: false,
     id: 'dhaka-2372-9041',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -346,7 +344,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 13:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 13:45',
       temp_c: 27,
@@ -386,10 +384,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045900,
-    is_current_location: false,
     is_favorite: true,
     id: 'cairo-al-qahirah-3005-3125',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -402,7 +399,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 19:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 19:45',
       temp_c: 9,
@@ -442,10 +439,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027045757,
-    is_current_location: false,
     is_favorite: true,
     id: 'beijing-beijing-3993-11639',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -458,7 +454,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 17:26',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 17:15',
       temp_c: 32,
@@ -498,10 +494,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046020,
-    is_current_location: false,
     is_favorite: false,
     id: 'mumbai-maharashtra-1898-7283',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -514,7 +509,7 @@ export const reports = [
       localtime_epoch: 1636027046,
       localtime: '2021-11-04 20:57',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 20:45',
       temp_c: 15,
@@ -554,10 +549,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046168,
-    is_current_location: false,
     is_favorite: false,
     id: 'osaka-shi-osaka-3469-1355',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -570,7 +564,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 16:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 16:45',
       temp_c: 32,
@@ -610,10 +604,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046179,
-    is_current_location: false,
     is_favorite: false,
     id: 'karachi-sindh-2487-6705',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -626,7 +619,7 @@ export const reports = [
       localtime_epoch: 1636026967,
       localtime: '2021-11-04 19:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 19:45',
       temp_c: 17,
@@ -666,10 +659,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046180,
-    is_current_location: false,
     is_favorite: false,
     id: 'chongqing-chongqing-2956-10655',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -682,7 +674,7 @@ export const reports = [
       localtime_epoch: 1636026968,
       localtime: '2021-11-04 14:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 14:45',
       temp_c: 21,
@@ -722,10 +714,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046148,
-    is_current_location: false,
     is_favorite: false,
     id: 'istanbul-istanbul-4102-2896',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -738,7 +729,7 @@ export const reports = [
       localtime_epoch: 1636026968,
       localtime: '2021-11-04 8:56',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 08:45',
       temp_c: 21,
@@ -778,10 +769,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046145,
-    is_current_location: false,
     is_favorite: false,
     id: 'buenos-aires-distrito-federal-3459-5867',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -794,7 +784,7 @@ export const reports = [
       localtime_epoch: 1636026968,
       localtime: '2021-11-04 17:26',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 17:15',
       temp_c: 29,
@@ -834,10 +824,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027046232,
-    is_current_location: false,
     is_favorite: false,
     id: 'kolkata-west-bengal-2257-8837',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -850,7 +839,7 @@ export const reports = [
       localtime_epoch: 1636027079,
       localtime: '2021-11-04 6:57',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 06:45',
       temp_c: 5.6,
@@ -890,10 +879,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027078765,
-    is_current_location: false,
     is_favorite: false,
     id: 'kansas-city-missouri-391-9458',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -906,7 +894,7 @@ export const reports = [
       localtime_epoch: 1636027256,
       localtime: '2021-11-04 14:00',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636026300,
       last_updated: '2021-11-04 13:45',
       temp_c: 35.6,
@@ -946,10 +934,9 @@ export const reports = [
       },
     },
     last_refresh: 1636027255911,
-    is_current_location: false,
     is_favorite: false,
     id: 'tripoli-tarabulus-3289-1318',
-    notes: [],
+    notes: {},
   },
   {
     location: {
@@ -962,7 +949,7 @@ export const reports = [
       localtime_epoch: 1636027326,
       localtime: '2021-11-04 16:32',
     },
-    current: {
+    data: {
       last_updated_epoch: 1636023600,
       last_updated: '2021-11-04 15:30',
       temp_c: 15.3,
@@ -1002,9 +989,8 @@ export const reports = [
       },
     },
     last_refresh: 1636027326077,
-    is_current_location: false,
     is_favorite: false,
     id: 'cabool-kabol-3452-6918',
-    notes: [],
+    notes: {},
   },
 ];

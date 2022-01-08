@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'assets/styles/index.css';
 import App from 'App';
-import reportWebVitals from './reportWebVitals';
-import { storage } from 'helpers/storage';
+import Store from 'helpers/Store';
 
-const cached = storage.getItem('reports') || [];
+const cached = new Store().getState();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,8 +12,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

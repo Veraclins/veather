@@ -87,8 +87,6 @@ describe('Search Component', () => {
     });
 
     userEvent.click(screen.getByText('London'));
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Search city')).toHaveValue('');
-    });
+    expect(await screen.findByPlaceholderText('Search city')).toHaveValue('');
   });
 });

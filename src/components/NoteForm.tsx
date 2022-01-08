@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextArea from 'components/TextArea';
-import { Note as NoteProps } from 'helpers/weather';
+import { Note as NoteProps } from 'helpers/Store';
 import { useWeatherContext } from 'context/WeatherContext';
 import { ReactComponent as DoneIcon } from 'assets/done.svg';
 import { ReactComponent as CancelIcon } from 'assets/cancel.svg';
@@ -23,23 +23,25 @@ const NoteForm: React.FC<NoteFormProps> = ({
 
   const { addOrUpdateNote } = useWeatherContext();
   const cancel = () => {
-    setValue(note.body);
+    setValue('');
     setTouched(false);
     onCancel?.();
   };
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setValue(e.target.value);
-    setTouched(true);
   };
 
   const save = async () => {
     if (!value) return;
     const data = { ...note, body: value };
     addOrUpdateNote(report_id, data);
-    setTouched(false);
     setValue('');
     onSubmit?.();
   };
+
+  useEffect(() => {
+    setTouched(value.trim() !== '');
+  }, [value]);
 
   return (
     <>
