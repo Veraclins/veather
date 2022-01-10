@@ -27,7 +27,7 @@ const CityPage: React.FC<Props> = ({ report }) => {
     : '';
 
   return (
-    <div className="card no-shadow">
+    <div className="card no-shadow h-100">
       {report ? (
         <>
           <div className="card-head">
@@ -238,7 +238,8 @@ const CityPage: React.FC<Props> = ({ report }) => {
         </>
       ) : (
         <div className="text-2xl flex justify-center items-center h-100">
-          No report? please use the search field above.
+          No report available. Please use the search field above to search the
+          city again.
         </div>
       )}
     </div>
