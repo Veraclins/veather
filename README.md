@@ -57,6 +57,14 @@ cd veather
 yarn install
 ```
 
+Update Environment variables: Create a .env file by copying the provided .env.example file
+
+``` bash
+cp .env.example .env
+```
+
+Update `REACT_APP_WEATHER_API_KEY` with the provided (in the submission) API key or create one on [Weatherapi.com](https://www.weatherapi.com/my/)
+
 ### 2. Start the development server
 
 ```bash
